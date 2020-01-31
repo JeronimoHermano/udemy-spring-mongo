@@ -1,5 +1,6 @@
 package br.com.jeronimo.springMongo.resources;
 
+import br.com.jeronimo.springMongo.domain.Post;
 import br.com.jeronimo.springMongo.domain.User;
 import br.com.jeronimo.springMongo.dto.UserDTO;
 import br.com.jeronimo.springMongo.services.UserService;
@@ -52,6 +53,12 @@ public class UseResource {
     obj = service.update(obj);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping(value = "/{id}/posts")
+  public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+    User obj = service.findById(id);
+    return ResponseEntity.ok().body(obj.getPosts());
   }
 
 }
