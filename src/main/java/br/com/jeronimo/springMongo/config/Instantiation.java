@@ -2,6 +2,7 @@ package br.com.jeronimo.springMongo.config;
 
 import br.com.jeronimo.springMongo.domain.Post;
 import br.com.jeronimo.springMongo.domain.User;
+import br.com.jeronimo.springMongo.dto.AuthorDTO;
 import br.com.jeronimo.springMongo.repository.PostRepository;
 import br.com.jeronimo.springMongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class Instantiation implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws ParseException {
+    userRepository.deleteAll();
+    postReposiroty.deleteAll();
+
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
@@ -30,12 +34,22 @@ public class Instantiation implements CommandLineRunner {
     User u2 = new User(null, "Alex Gray", "alex@gmail.com");
     User u3 = new User(null, "Bob Blue", "bob@gmail.com");
 
-    userRepository.deleteAll();
     userRepository.saveAll(Arrays.asList(u1, u2, u3));
 
-    Post post1 = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", u1);
-    Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei feliz hoje!", u1);
-
+    Post post1 = new Post(
+        null,
+        sdf.parse("21/03/2018"),
+        "Partiu viagem",
+        "Vou viajar para São Paulo. Abraços!",
+        new AuthorDTO(u1)
+    );
+    Post post2 = new Post(
+        null,
+        sdf.parse("23/03/2018"),
+        "Bom dia",
+        "Acordei feliz hoje!",
+        new AuthorDTO(u1)
+    );
     postReposiroty.saveAll(Arrays.asList(post1, post2));
 
   }
