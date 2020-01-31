@@ -3,6 +3,7 @@ package br.com.jeronimo.springMongo.config;
 import br.com.jeronimo.springMongo.domain.Post;
 import br.com.jeronimo.springMongo.domain.User;
 import br.com.jeronimo.springMongo.dto.AuthorDTO;
+import br.com.jeronimo.springMongo.dto.CommentDTO;
 import br.com.jeronimo.springMongo.repository.PostRepository;
 import br.com.jeronimo.springMongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,28 @@ public class Instantiation implements CommandLineRunner {
         "Acordei feliz hoje!",
         new AuthorDTO(u1)
     );
-    postReposiroty.saveAll(Arrays.asList(post1, post2));
 
+
+    CommentDTO c1 = new CommentDTO(
+        "Boa viagem mano!",
+        sdf.parse("21/03/2018"),
+        new AuthorDTO(u3)
+    );
+    CommentDTO c2 = new CommentDTO(
+        "Aproveite!",
+        sdf.parse("22/03/2018"),
+        new AuthorDTO(u1)
+    );
+    CommentDTO c3 = new CommentDTO(
+        "Tenha um ótimo dia!",
+        sdf.parse("23/03/2018"),
+        new AuthorDTO(u3)
+    );
+
+    post1.getComments().addAll(Arrays.asList(c1, c2));
+    post2.getComments().add(c3);
+
+    postReposiroty.saveAll(Arrays.asList(post1, post2));
 
     u1.getPosts().addAll(Arrays.asList(post1, post2));
     userRepository.save(u1);

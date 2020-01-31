@@ -24,6 +24,11 @@ public class PostService {
     return obj.orElseThrow(() -> new ObjectNotFoundException("Postagem inexistente"));
   }
 
+  public List<Post> findByTitle(String text) {
+    Optional<List<Post>> obj = repository.findByTitleContainingIgnoreCase(text);
+    return obj.orElse(null);
+  }
+
   /*
   public Post insert(Post obj) {
     obj.setId(null);
